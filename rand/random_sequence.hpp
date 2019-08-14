@@ -33,7 +33,7 @@ public:
 
   // constructors
   template<typename _IterT>
-  sequence_distribution(_IterT begin, _IterT end)
+  sequence_distribution(const _IterT& begin, const _IterT& end)
     : omega(begin,end)
   {
     std::vector<int> v(omega.size(), 1);
@@ -53,7 +53,8 @@ public:
   operator()(size_t n, _InsIt it, _RandD& dev)
   {
     while(n>0) {
-      it = omega[dd(dev)];
+      *it = omega[dd(dev)];
+      ++it;
       n--;
     }
   }
@@ -75,13 +76,13 @@ private:
 // factory functions
 template<typename _SampleT, typename _IterT>
 sequence_distribution<_SampleT>
-make_uniform_sequence_distribution(_IterT begin, _IterT end) {
+make_uniform_sequence_distribution(const _IterT& begin, const _IterT& end) {
   return sequence_distribution<_SampleT>(begin, end);
 }
 
 template<typename _SampleT, typename _ContT>
 sequence_distribution<_SampleT>
-make_uniform_sequence_distribution(_ContT cont) {
+make_uniform_sequence_distribution(const _ContT& cont) {
   return sequence_distribution<_SampleT>(cont.begin(), cont.end());
 }
 
