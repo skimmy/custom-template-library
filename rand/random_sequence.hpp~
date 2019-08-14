@@ -1,0 +1,64 @@
+// random_sequence.hpp
+
+// Copyright 2019 Michele Schimd
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
+// TODO
+// Generate a sequence of N samples from the set
+// A and store it in S
+
+
+#include "../ctl.h"
+
+#include <cstdlib>
+#include <random>
+
+#ifndef _CTL_RANDOM_SEQUENCE_
+#define _CTL_RANDOM_SEQUENCE_
+
+template<typename _SampleT>
+class sequence_distribution
+{
+public:
+  typedef _SampleT sample_type;
+
+  // constructors
+  template<typename _IterT>
+  sequence_distribution(_IterT begin, _IterT end)
+    : omega(begin,end)
+  {
+    
+  }
+    
+  // generate operations
+  template<typename _InsIt, typename _RandD>
+  void
+  operator()(size_t n, _InsIt it, _RandD dev)
+  {
+    while(n>0) {
+      it = omega[dd(dev)];
+      n--;
+    }
+  }
+  
+
+private:
+  std::vector<sample_type> omega;
+  std::discrete_distribution dd;
+
+  
+};
+
+#endif
