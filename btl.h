@@ -1,5 +1,5 @@
 /*
- ctl.h
+ btl.h
 
  Copyright 2019 Michele Schimd
 
@@ -16,14 +16,14 @@
  limitations under the License.
 */
 
-#ifndef _CTL_H
-#define _CTL_H
+#ifndef _BTL_H
+#define _BTL_H
 
-#define DEFAULT_NAMESPACE_BEGIN namespace ctl {
+#define DEFAULT_NAMESPACE_BEGIN namespace btl {
 #define DEFAULT_NAMESPACE_END }
 
-#define CTL_LIB_NAME "ctl"
-#define BTL_LIB_FULL_NAME "Custom Template Library"
-#define CTL_LIB_VERSION "0.1"
+#define BTL_LIB_NAME "btl"
+#define BTL_LIB_FULL_NAME "Bioinformatics Template library"
+#define BTL_LIB_VERSION "0.1"
 
 #endif
