@@ -1,4 +1,4 @@
-// matrix.hpp
+// data_structure/matrix.hpp
 
 // Copyright 2019 Michele Schimd
 
@@ -21,7 +21,7 @@
 #ifndef _CTL_DATA_STRUCTURE_
 #define _CTL_DATA_STRUCTURE_
 
-DEFAULT_NAMESPACE_BEGIN
+CTL_DEFAULT_NAMESPACE_BEGIN
 
 template <typename _ContentT, typename _Alloc = std::allocator<_ContentT> >
 struct _2D_matrix
@@ -71,6 +71,6 @@ using DoubleMatrix = _2D_matrix<double>;
 using FloatMatrix  = _2D_matrix<float>;
 
 
-DEFAULT_NAMESPACE_END
+CTL_DEFAULT_NAMESPACE_END
 
 #endif

@@ -18,13 +18,14 @@
 
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <map>
 
 #ifndef _CTL_STREAM_MAP_
 #define _CTL_STREAM_MAP_
 
 
-DEFAULT_NAMESPACE_BEGIN
+CTL_DEFAULT_NAMESPACE_BEGIN
 
 template <typename _T>
 _T from_string(std::string str) {
@@ -65,6 +66,7 @@ stream_to_map(std::istream& _is, char delimiter=',', char comment='#') {
 
 using StringStringMap = typename std::map<std::string, std::string>;
 
-DEFAULT_NAMESPACE_END
+CTL_DEFAULT_NAMESPACE_END
+
 
 #endif

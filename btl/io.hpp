@@ -16,11 +16,13 @@
  limitations under the License.
 */
 
+#include "../btl.h"
+
 #include <utility>
 #include <string>
 #include <fstream>
 
-DEFAULT_NAMESPACE_BEGIN
+namespace btl {
 
 // Readsa a fasta file
 // Notes:
@@ -57,4 +59,4 @@ read_fasta(std::string& path) {
 
 using HeaderGenomePair = std::pair<std::string, std::string>;
 
-DEFAULT_NAMESPACE_END
+}

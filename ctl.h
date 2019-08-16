@@ -1,3 +1,4 @@
+
 /*
  ctl.h
 
@@ -19,11 +20,11 @@
 #ifndef _CTL_H
 #define _CTL_H
 
-#define DEFAULT_NAMESPACE_BEGIN namespace ctl {
-#define DEFAULT_NAMESPACE_END }
+#define CTL_DEFAULT_NAMESPACE_BEGIN namespace ctl {
+#define CTL_DEFAULT_NAMESPACE_END }
 
 #define CTL_LIB_NAME "ctl"
-#define BTL_LIB_FULL_NAME "Custom Template Library"
+#define CTL_LIB_FULL_NAME "Custom Template Library"
 #define CTL_LIB_VERSION "0.1"
 
 #endif

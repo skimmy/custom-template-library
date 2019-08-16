@@ -23,7 +23,7 @@
 #ifndef _CTL_RANDOM_SEQUENCE_
 #define _CTL_RANDOM_SEQUENCE_
 
-DEFAULT_NAMESPACE_BEGIN
+CTL_DEFAULT_NAMESPACE_BEGIN
 
 template<typename _SampleT>
 class sequence_distribution
@@ -87,6 +87,6 @@ make_uniform_sequence_distribution(const _ContT& cont) {
 }
 
 
-DEFAULT_NAMESPACE_END
+CTL_DEFAULT_NAMESPACE_END
 
 #endif
