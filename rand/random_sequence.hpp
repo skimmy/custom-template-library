@@ -1,4 +1,4 @@
-// random_sequence.hpp
+// rand/random_sequence.hpp
 
 // Copyright 2019 Michele Schimd
 
