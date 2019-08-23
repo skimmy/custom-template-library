@@ -17,6 +17,7 @@
 #include "../ctl.h"
 #include "../data_structure/matrix.hpp"
 
+#include <vector>
 #include <cstdlib>
 
 #ifndef _CTL_STR_DISTANCE_
@@ -49,21 +50,41 @@ private:
   
 public:  
 
-  EditDistanceWF(size_t n, size_t m, const CostVector& costs)
+  EditDistanceWF(size_t n, size_t m, CostVector costs)
     : dp_struct{n+1, m+1}, costs_vector {costs}
   {
     init();
   }
 
+  EditDistanceWF(const EditDistanceWF& wf) 
+    : dp_struct{wf._dp_struct}, costs_vector {wf.costs_vector}
+    { }
+
+  EditDistanceWF(EditDistanceWF&& wf) noexcept
+    : dp_struct(std::move(wf.dp_struct)), costs_vector{std::move(wf.costs_vector)}
+    { }
+
+  EditDistanceWF& operator=(const EditDistanceWF& _wf)
+  {
+    dp_struct = _wf.dp_struct;
+    costs_vector = _wf.costs_vector;
+  }
+
+  EditDistanceWF& operator=(EditDistanceWF&& _wf)
+  {
+    dp_struct = std::move(_wf.dp_struct);
+    costs_vector = std::move(_wf.costs_vector);
+  }    
+
   
   void
   init() {
     dp_struct(0, 0) = 0;
-    for (size_t i = 1; i <= dp_struct._rows; ++i) {
+    for (size_t i = 1; i < dp_struct._rows; ++i) {
       dp_struct(i, 0)
 	= dp_struct(i-1, 0) + costs_vector[iD_];
     }
-    for (size_t j = 1; j <= dp_struct._cols; ++j) {
+    for (size_t j = 1; j < dp_struct._cols; ++j) {
       dp_struct(0, j)
 	= dp_struct(0, j-1) + costs_vector[iI_];
     }
@@ -122,14 +143,15 @@ public:
   // print_dp_matrix() {
   //   dp_struct.print_matrix();
   // }
+  
+  
 }; // EditDistanceWF
 
 
 template <typename T = size_t>
 EditDistanceWF<T> make_wf_alg(size_t n, size_t m)
 {
-  std::vector<T> costs = {1, 1, 1};
-  return EditDistanceWF<T>(n, m, costs);
+  return EditDistanceWF<T>(n, m, {1, 1, 1});
 }
 
 

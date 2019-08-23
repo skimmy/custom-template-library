@@ -17,15 +17,18 @@
 #include "../ctl.h"
 
 #include <utility>
+#include <cstring>
+#include <vector>
 
 #ifndef _CTL_DATA_STRUCTURE_
 #define _CTL_DATA_STRUCTURE_
 
 CTL_DEFAULT_NAMESPACE_BEGIN
 
-template <typename _ContentT, typename _Alloc = std::allocator<_ContentT> >
-struct _2D_matrix
+template <typename _ContentT, typename _Alloc = std::allocator<_ContentT>>
+class _2D_matrix
 {
+public:
 
   typedef _ContentT              content_type;
   typedef _ContentT*             content_pointer;
@@ -38,24 +41,58 @@ struct _2D_matrix
   size_type _cols;
 
   
-  _2D_matrix(size_type _r, size_type _c)
+  explicit _2D_matrix(size_type _r, size_type _c)
     : _rows {_r}, _cols {_c}
   {
     _mat = new content_type[_rows*_cols];
   }
 
+  // copy constructor
+  _2D_matrix(const _2D_matrix& _m)
+    : _rows {_m._rows}, _cols {_m.cols}
+  {
+    _mat = new content_type[_rows*_cols];
+    std::memcpy(_mat, _m._mat, _rows*_cols*sizeof(content_type));
+  }
+    
+  // move constructor
+  _2D_matrix(_2D_matrix&& _m)
+    : _mat {std::move(_m._mat)}, _rows {_m._rows}, _cols {_m._cols}
+    { _m._mat = nullptr; }
+
   ~_2D_matrix() {
-    delete[] _mat;
+    if (_mat) {
+      delete[] _mat;
+    }
+    _mat = nullptr;
   }
 
   content_type
   operator()(index_type _i, index_type _j) const {
     return _mat[_i*_cols + _j];
-  }
+    }
 
   content_type&
   operator()(index_type _i, index_type _j) {
     return _mat[_i*_cols + _j];
+  }
+
+  // copy assignment
+  _2D_matrix& operator=(const _2D_matrix& _m)
+  {
+    _rows = _m._rows;
+    _cols = _m._cols;
+    _mat = new content_type[_rows*_cols];
+    std::memcpy(_mat, _m._mat, _rows*_cols*sizeof(content_type));
+  }    
+
+  // move assignment
+  _2D_matrix& operator=(_2D_matrix&& _m)
+  {
+    _rows = _m._rows;
+    _cols = _m._cols;
+    std::swap(_mat, _m._mat);
+    _m.mat = nullptr;
   }
 
   std::pair<size_type,size_type>
