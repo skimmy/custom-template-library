@@ -25,6 +25,82 @@
 
 CTL_DEFAULT_NAMESPACE_BEGIN
 
+template <typename T_>
+T_**
+alloc_matrix(size_t n, size_t m)
+{
+  T_** p_ = new T_*[n];
+  for (size_t i = 0; i < n; ++i) {
+    p_[i] = new T_[m];
+  }
+  return p_;
+}
+
+template <typename T_>
+void
+free_matrix(T_** p_, size_t n, size_t m)
+{
+  for (size_t i = 0; i < n; ++i) {
+    delete[] p_[i];
+  }
+  delete[] p_;
+}
+
+template <typename _ContentT, typename _Alloc = std::allocator<_ContentT>>
+class _2D_array
+{
+public:
+
+  typedef _ContentT              content_type;
+  typedef _ContentT*             content_pointer;
+  typedef size_t                 size_type;
+  typedef size_t                 index_type;
+  
+  // member variables
+  content_type** _mat;
+  size_type _rows;
+  size_type _cols;
+
+  explicit _2D_array(size_type _r, size_type _c)
+    : _rows {_r}, _cols {_c}
+  {
+    _mat = alloc_matrix<content_type>(_rows, _cols);
+  }
+
+  ~_2D_array()
+  {
+    free_matrix<content_type>(_mat, _rows, _cols);
+    _mat = nullptr;
+  }
+
+  content_type
+  operator()(index_type _i, index_type _j) const {
+    return _mat[_i][_j];
+    }
+
+  content_type&
+  operator()(index_type _i, index_type _j) {
+    return _mat[_i][_j];
+  }
+
+  std::pair<size_type,size_type>
+  shape() const {
+    return std::make_pair(_rows, _cols);
+  }
+
+  void
+  swap_rows(size_t i, size_t j)
+  {
+    std::swap(_mat[i], _mat[j]);
+  }
+
+};
+
+using Int2DArray    = _2D_array<int>;
+using Long2DArray   = _2D_array<long>;
+using Double2DArray = _2D_array<double>;
+using Float2DArray  = _2D_array<float>;
+
 template <typename _ContentT, typename _Alloc = std::allocator<_ContentT>>
 class _2D_matrix
 {
