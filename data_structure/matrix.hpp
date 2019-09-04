@@ -25,6 +25,9 @@
 
 CTL_DEFAULT_NAMESPACE_BEGIN
 
+// List of TODOs:
+//  - Make all structures as compliant as possible with the stl
+
 template <typename T_>
 T_**
 alloc_matrix(size_t n, size_t m)
@@ -46,6 +49,10 @@ free_matrix(T_** p_, size_t n, size_t m)
   delete[] p_;
 }
 
+// TODO: Improve by substituting double pointer with a single pointer
+// array. Then use the same structure as _2D_matrix making the access
+// through the array of pointers. This could increase efficiency since
+// the items are stored in a one dimension array.
 template <typename _ContentT, typename _Alloc = std::allocator<_ContentT>>
 class _2D_array
 {
