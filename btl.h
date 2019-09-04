@@ -20,7 +20,7 @@
 #define _BTL_H
 
 #define BTL_DEFAULT_NAMESPACE_BEGIN namespace btl {
-#define VTL_DEFAULT_NAMESPACE_END }
+#define BTL_DEFAULT_NAMESPACE_END }
 
 #define BTL_LIB_NAME "btl"
 #define BTL_LIB_FULL_NAME "Bioinformatics Template library"

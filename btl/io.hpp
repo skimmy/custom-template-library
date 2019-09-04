@@ -22,7 +22,10 @@
 #include <string>
 #include <fstream>
 
-namespace btl {
+#ifndef _BTL_IO_
+#define _BTL_IO_
+
+BTL_DEFAULT_NAMESPACE_BEGIN
 
 // Readsa a fasta file
 // Notes:
@@ -57,6 +60,21 @@ read_fasta(std::string& path) {
   return pp;
 }
 
+template <typename _StreamT, typename _ContT, typename _HeadT>
+void
+write_fasta(_StreamT& os, const _ContT& g, const 
+	    _HeadT& h, size_t max_line=50) {
+  os << h << "\n";
+  auto b = g.begin();
+  auto e = g.end();
+  for (size_t i = 1; b != e; ++b, ++i) {
+    os << *b;
+    if ( (i % max_line) == 0) { std::cout << "\n"; }
+  }
+}
+
 using HeaderGenomePair = std::pair<std::string, std::string>;
 
-}
+BTL_DEFAULT_NAMESPACE_END
+
+#endif

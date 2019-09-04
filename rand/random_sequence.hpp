@@ -41,6 +41,12 @@ public:
   }
 
   // TODO Constructor with distribution
+  template<typename _IterT, typename _DistT>
+  sequence_distribution(const _IterT& begin, const _IterT& end,
+			const _DistT& dbegin, const _DistT& dend)
+    : omega(begin, end), dd(dbegin, dend)
+  {
+  }
     
   // generate operations
   template<typename _RandD>
@@ -84,6 +90,20 @@ template<typename _SampleT, typename _ContT>
 sequence_distribution<_SampleT>
 make_uniform_sequence_distribution(const _ContT& cont) {
   return sequence_distribution<_SampleT>(cont.begin(), cont.end());
+}
+
+template<typename _SampleT, typename _IterT, typename _DistT>
+sequence_distribution<_SampleT>
+make_sequence_distribution(const _IterT& begin, const _IterT& end,
+			   const _DistT& dbegin, const _DistT& dend) {
+  return sequence_distribution<_SampleT>(begin, end, dbegin, dend);
+}
+
+template<typename _SampleT, typename _ContT, typename _DistT>
+sequence_distribution<_SampleT>
+make_sequence_distribution(const _ContT& cont, _DistT dist) {
+  return sequence_distribution<_SampleT>(cont.begin(), cont.end(),
+					 dist.begin(), dist.end());
 }
 
 
