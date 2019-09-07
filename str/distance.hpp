@@ -25,15 +25,29 @@
 
 CTL_DEFAULT_NAMESPACE_BEGIN
 
+
+/// \brief Computes Hamming distance between ranges
+template<typename _IterT1, typename _IterT2, typename _IntT = size_t>
+_IntT
+hamming_distance(_IterT1 b1, _IterT1 e1, _IterT2 b2) {
+  _IntT c {0};
+  while(b1 != e1) {
+    c += (*b1 != *b2) ? 1 : 0;
+    ++b1;
+    ++b2;
+  }
+  return c;
+}
+
+
 constexpr size_t iS_ = 0;
 constexpr size_t iD_ = 1;
 constexpr size_t iI_ = 2;
 
 // Basic dynamic programming edit distance
-/**
- * \brief This class represents the standard Wagner and Fischer edit
- * distance dynamic programming algorithm.
- */
+
+/// \brief This class represents the standard Wagner and Fischer edit
+/// distance dynamic programming algorithm.
 template<typename CostType = size_t>
 class EditDistanceWF {
 public:
