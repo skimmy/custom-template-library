@@ -17,7 +17,9 @@
 #include "../btl.h"
 
 #include "../rand/random_sequence.hpp"
+#include "../str/kmer.hpp"
 
+#include <map>
 #include <iterator>
 
 #ifndef _BTL_GENERATOR_
@@ -39,6 +41,16 @@ template <typename DistT_, typename RandDev_>
 std::string
 random_genome_string(size_t G, DistT_ dist, RandDev_& rdev) {
   return random_genome<std::string, DistT_, RandDev_>(G, dist, rdev);
+}
+
+template <typename _ContT, typename _RandDev>
+_ContT
+random_like(const _ContT& src, _RandDev& rdev) {
+  std::size_t n = std::distance(src.begin(), src.end());
+  std::map<std::string,std::size_t> map;
+  ctl::kmer_statistics(src, 1, map);
+  std::vector<std::size_t> dist { map["A"], map["C"], map["G"], map["T"] };
+  return random_genome<_ContT, std::vector<std::size_t>, _RandDev>(n, dist, rdev);
 }
 
 BTL_DEFAULT_NAMESPACE_END
