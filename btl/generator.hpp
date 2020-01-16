@@ -29,10 +29,11 @@ BTL_DEFAULT_NAMESPACE_BEGIN
 
 template <typename _ContT, typename _DistT, typename _RandDev>
 _ContT
-random_genome(size_t G, _DistT dist, _RandDev& rdev) {
-  _ContT genome;
-  std::string v {"ACGT"};
-  auto gen = ctl::make_sequence_distribution<char, std::string, _DistT>(v, dist);
+random_genome(size_t G, _DistT dist, _RandDev& rdev,
+	      const std::string alphabet = "ACGT") {
+  _ContT genome; 
+  auto gen =
+    ctl::make_sequence_distribution<char, std::string, _DistT>(alphabet, dist);
   gen(G, std::inserter(genome, genome.end()), rdev);
   return genome;
 }
@@ -49,6 +50,7 @@ random_like(const _ContT& src, _RandDev& rdev) {
   std::size_t n = std::distance(src.begin(), src.end());
   std::map<std::string,std::size_t> map;
   ctl::kmer_statistics(src, 1, map);
+  // TODO: use the argument alphabet of 'random_genome'
   std::vector<std::size_t> dist { map["A"], map["C"], map["G"], map["T"] };
   return random_genome<_ContT, std::vector<std::size_t>, _RandDev>(n, dist, rdev);
 }
