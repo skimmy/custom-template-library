@@ -143,20 +143,108 @@ public:
     return dp_struct(n, m);
   }
 
-  // EditDistanceInfo
-  // backtrack() {
-  //   EditDistanceInfo info;
-  //   // following uses an 'old' functions that accepts size_t** as DP matrix
-  //   // it should be changed to accept a dp_struct
-  //   lbio::sim::edit::closest_to_diagonal_backtrack(dp_struct.n, dp_struct.m,
-  // 						   dp_struct.dp_matrix, info);
-  //   return info;
-  // }
+  template <typename ListT> // e.g., std::list<std::pair<size_t,size_t>>
+  ListT
+  backtrack()
+  {
+    ListT l;
+    size_t i = dp_struct.shape().first; 
+    size_t j = dp_struct.shape().second;
+  
+    while(i>0 and j>0)
+    {
+      l.push_front(std::make_pair(i,j));
+      CostType a = dp_struct(i-1,j-1);
+      CostType b = dp_struct(i-1,j);
+      CostType c = dp_struct(i,j-1);
+      CostType d = dp_struct(i,j);
+    
 
-  // void
-  // print_dp_matrix() {
-  //   dp_struct.print_matrix();
-  // }
+      // Match
+      if ( (a == d) && ( a <= b) && (a <= c)) {
+	i--; j--;
+	continue;
+      }    
+      // Substitution
+      if ( (a < b) && (a < c) ) {      
+      i--; j--;
+      continue;
+      }
+
+      // Deletion
+      if ( (b < a) && (b < c) ) {      
+	i--;
+	continue;
+      }
+
+      // Insertion
+      if ( (c < a) && (c < b) ) {
+	j--;
+	continue;
+      }
+        
+      // Tie between all operations
+      if ( (a == b) && (b == c) ) {
+	if (i < j) {
+	  j--;
+	  continue;
+	}
+	if (i == j) {	
+	  i--; j--;
+	  continue;
+	}
+	if (i > j) {
+	  i--;
+	  continue;
+	}
+      }
+
+      // Tie between sub and del
+      if (a == b) {
+	if (i > j) {
+	  i--;
+	} else {
+	  i--; j--;
+	}
+	continue;	
+      }
+      // Tie between sub and ins
+      if (a == c) {
+	if (i < j) {
+	  j--;
+	} else {
+	  i--; j--;
+	}
+	continue;
+      }
+      
+      // Tie between del and ins
+      if (b == c) {
+	if (j <= i) {
+	  i--;
+	} else {
+	  j--;
+	}
+	continue;
+
+      }
+    }
+  
+    // backtrack the left edge (if needed)
+    while(i > 0) {
+      l.push_front(std::make_pair(i,j));
+      i--;
+    }
+
+    // bacltrack the top edge (if needed)
+    while(j > 0) {
+      l.push_front(std::make_pair(i,j));
+      j--;
+    }
+      
+    return l;
+  }
+  
   
   
 }; // EditDistanceWF
