@@ -86,11 +86,13 @@ public:
 
     content_type
     operator()(index_type _i, index_type _j) const {
+//        assert(_i < _rows && _j < _cols);
         return _mat[_i][_j];
     }
 
     content_type &
     operator()(index_type _i, index_type _j) {
+//        assert(_i < _rows && _j < _cols);
         return _mat[_i][_j];
     }
 
@@ -101,9 +103,6 @@ public:
 
     void
     swap_rows(size_t i, size_t j) {
-//        content_type *tmp = _mat[i];
-//        _mat[i] = _mat[j];
-//        _mat[j] = tmp;
         std::swap(_mat[i], _mat[j]);
     }
 
