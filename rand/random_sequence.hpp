@@ -1,6 +1,6 @@
 // rand/random_sequence.hpp
 
-// Copyright 2019 Michele Schimd
+// Copyright 2022 Michele Schimd
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -104,6 +104,50 @@ sequence_distribution<_SampleT>
 make_sequence_distribution(const _ContT& cont, _DistT dist) {
   return sequence_distribution<_SampleT>(cont.begin(), cont.end(),
 					 dist.begin(), dist.end());
+}
+
+template<typename _SampleT>
+class integer_distribution
+{
+public:
+  typedef _SampleT sample_type;
+
+  // constructors
+  integer_distribution(sample_type a, sample_type b)
+    : low(a), high(b), dd(a, b)
+  {
+  }
+
+    
+  // generate operations
+  template<typename _RandD>
+  sample_type
+  operator()(_RandD& dev)
+  { return dd(dev); }
+  
+  template<typename _InsIt, typename _RandD>
+  void
+  operator()(size_t n, _InsIt it, _RandD& dev)
+  {
+    while(n>0) {
+      *it = dd(dev);
+      ++it;
+      n--;
+    }
+  }
+
+
+private:
+  sample_type low;
+  sample_type high;
+  std::uniform_int_distribution<sample_type> dd;
+  
+};
+
+template<typename _SampleT>
+integer_distribution<_SampleT>
+make_uniform_integer_distribution(_SampleT low, _SampleT high) {
+    return integer_distribution<_SampleT>(low, high);
 }
 
 
