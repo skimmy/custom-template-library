@@ -19,6 +19,7 @@
 
 #include <vector>
 #include <cstdlib>
+#include <algorithm>
 
 #ifndef _CTL_STR_DISTANCE_
 #define _CTL_STR_DISTANCE_
