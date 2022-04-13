@@ -1,6 +1,6 @@
 // str/distance.hpp
 
-// Copyright 2019 Michele Schimd
+// Copyright 2019 - 2022 Michele Schimd
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,6 +38,22 @@ hamming_distance(_IterT1 b1, _IterT1 e1, _IterT2 b2) {
     ++b2;
   }
   return c;
+}
+
+template<typename CostType = size_t>
+class HammingDistance {
+public:
+    template <typename IterT>
+    CostType
+    operator()(IterT b1, IterT e1, IterT b2, IterT e2) {
+        return hamming_distance(b1, e1, b2);
+    }
+};
+
+template <class CostType = size_t>
+HammingDistance<CostType>
+make_hamming_distance_algorithm() {
+    return HammingDistance<CostType>();
 }
 
 
